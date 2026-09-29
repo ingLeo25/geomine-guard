@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>GEOMINE GUARD</title>
+<style>
+:root{--bg:#14181d;--p:#1c2229;--p2:#242c35;--bd:#333d49;--tx:#e8edf2;--mu:#8d9aa8;--bl:#3d8bd9;--gr:#3fae6a;--am:#e0a526;--rd:#d9473f;--na:#7b8794;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 "Segoe UI","Helvetica Neue",Arial,sans-serif}
+#app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+#side{background:#10141a;border-right:1px solid var(--bd);padding:16px 0}
+#side b{display:block;padding:0 18px 14px;font-size:15px;letter-spacing:.5px}
+#side a{display:block;padding:11px 18px;cursor:pointer;color:var(--mu);border-left:3px solid transparent}
+#side a.on{color:var(--tx);background:var(--p2);border-left-color:var(--bl)}
+#main{padding:16px 22px 60px;min-width:0}
+#hdr{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--bd);margin-bottom:14px}
+#hdr h2{margin:0;font-size:20px}.mu{color:var(--mu)}small{color:var(--mu)}
+.tag{border:1px solid var(--am);color:var(--am);padding:2px 8px;font-size:11px;border-radius:3px}
+.pn{background:var(--p);border:1px solid var(--bd);border-radius:4px;padding:14px;margin-bottom:14px}
+.pn h3{margin:0 0 8px;font-size:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gt{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}
+@media(max-width:1000px){#app{grid-template-columns:1fr}#side{display:flex;overflow:auto;padding:0}#side b{display:none}#side a{white-space:nowrap}.g3,.g2,.gt{grid-template-columns:1fr}}
+.lv{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;border-left:8px solid var(--gr)}
+.lv.am{border-left-color:var(--am)}.lv.rd{border-left-color:var(--rd)}
+.lv h1{margin:2px 0;font-size:34px}.lv.gr h1{color:var(--gr)}.lv.am h1{color:var(--am)}.lv.rd h1{color:var(--rd)}
+.ladder{display:flex;gap:6px}.lad{border:1px solid var(--bd);padding:6px 10px;text-align:center;color:var(--mu);font-size:13px;min-width:92px}
+.lad.on{color:#fff}.lad.on.gr{background:var(--gr)}.lad.on.am{background:var(--am);color:#111}.lad.on.rd{background:var(--rd)}
+.btn{background:var(--bl);color:#fff;border:0;padding:8px 14px;border-radius:3px;font:inherit;font-weight:600;cursor:pointer}
+.btn.big{padding:16px 28px;font-size:16px}.btn:disabled{opacity:.5;cursor:default}
+.btn.s{background:var(--p2);border:1px solid var(--bd);font-weight:500;padding:6px 10px}.btn.s.on{background:var(--bl);border-color:var(--bl)}
+.btn.rd{background:var(--rd)}
+.al{padding:10px 14px;border-left:5px solid;margin-bottom:14px;background:var(--p2)}
+.al.gr{border-color:var(--gr)}.al.am{border-color:var(--am)}.al.rd{border-color:var(--rd)}
+.card b{font-size:26px}.pill{display:inline-block;padding:1px 9px;border-radius:10px;font-size:12px;font-weight:600}
+.pill.gr{background:rgba(63,174,106,.18);color:var(--gr)}.pill.am{background:rgba(224,165,38,.18);color:var(--am)}.pill.rd{background:rgba(217,71,63,.2);color:var(--rd)}
+.pill.na{background:repeating-linear-gradient(45deg,#3a424d,#3a424d 4px,#2d343d 4px,#2d343d 8px);color:#cfd6de;border:1px solid var(--na)}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--bd)}th{color:var(--mu);font-weight:500}
+.act{border:1px solid var(--bd);padding:10px;margin-bottom:10px;background:var(--p2)}
+.act .h{font-size:12px;color:var(--mu);margin-top:6px}
+.tlb{max-height:380px;overflow:auto;font-family:Consolas,monospace;font-size:13px}.tlb div{padding:3px 0;border-bottom:1px dashed var(--bd)}
+textarea{width:100%;min-height:70px;background:#10141a;color:var(--tx);border:1px solid var(--bd);padding:8px;font:inherit;border-radius:3px}
+#pan{position:fixed;right:12px;bottom:calc(46px + env(safe-area-inset-bottom,0px));width:230px;background:#10141a;border:1px solid var(--bd);border-radius:4px;padding:8px;z-index:5;font-size:12px}
+#pan .btn{display:block;width:100%;margin-top:5px;text-align:left}
+#foot{position:fixed;left:0;right:0;bottom:0;background:#10141a;border-top:1px solid var(--bd);padding:5px 16px calc(5px + env(safe-area-inset-bottom,0px));font-size:11px;color:var(--mu);z-index:4}
+#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--gr);color:#fff;padding:8px 18px;border-radius:3px;display:none;z-index:9}
+#mod{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:8}#mod>div{background:var(--p);border:1px solid var(--bd);padding:18px;width:min(520px,92vw)}
+.paper{background:#fff;color:#111;padding:26px}.paper table td,.paper table th{border-color:#ccc}.paper h3{color:#111;border-bottom:2px solid #223;padding-bottom:4px}
+@media print{#side,#hdr,#pan,#foot,.noprint{display:none!important}#app{display:block}body{background:#fff}#main{padding:0}}
+</style></head><body>
+<div id="app"><nav id="side"><b>GEOMINE GUARD</b></nav><div id="main">
+<div id="hdr"><div><h2>GEOMINE GUARD</h2><div class="mu">Vigilancia geotécnica y respuesta preventiva</div></div>
+<div><b>Depósito de Relaves – Escenario Académico</b><br><span class="mu">29/09/2026 · <span id="ck">10:00:00</span> (hora simulada)</span></div>
+<div style="text-align:right"><span class="tag">DATOS SIMULADOS – DEMOSTRACIÓN ACADÉMICA</span><br><span id="hl"></span></div></div>
+<div id="v"></div></div></div>
+<div id="pan"></div><div id="toast"></div><div id="modw"></div>
+<div id="foot">Los criterios utilizados son exclusivamente académicos y demostrativos. En una operación real deben provenir del diseño, manual de operación, plan de monitoreo y criterio del profesional responsable.</div>
+<script>
+const $=s=>document.querySelector(s),CR={pz:11.5,dr:20},ST=['Pendiente','En atención','Completado'];
+const LV=[{n:'N0 – NORMAL',c:'gr'},{n:'N1 – ATENCIÓN',c:'am'},{n:'N2 – INTERVENCIÓN',c:'rd'},{n:'N3 – EMERGENCIA',c:'rd'}];
+const NAV=[['control','Centro de Control'],['trend','Tendencias'],['tarp','TARP Digital'],['events','Gestión de Eventos'],['map','Mapa de Exposición'],['instr','Instrumentación'],['rep','Reportes']];
+const INS=[['PZ-01','Nivel piezométrico','PZ'],['INC-02','Inclinación','INC'],['DR-01','Caudal drenaje','DR'],['NL-01','Nivel laguna','NL'],['TB-01','Turbidez','TB']];
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+let S,view='control',rng='1h',timers=[],pan=true;
+const gen=(n,b,a,s)=>Array.from({length:n},(_,i)=>+(b+Math.sin(i*.7+s)*a+Math.sin(i*2.3+s*2)*a*.5).toFixed(2));
+function init(){S={pz:10.2,dr:14.8,tpz:10.2,tdr:14.8,lvl:0,max:0,n3:false,adm:false,run:false,stage:'',sig:{PZ:1,INC:1,DR:1,NL:1,TB:1},evt:null,tl:[],ev:[],obs:[],draft:'',cnt:0,mk:{},t0:Date.now(),rep:false,modal:false,fp:0,fd:0,
+ser:{'1h':{pz:gen(60,10.2,.04,1),dr:gen(60,14.8,.25,2)},'24h':{pz:gen(96,10.1,.1,3),dr:gen(96,14.5,.5,4)},'7d':{pz:gen(84,10,.15,5),dr:gen(84,14.2,.7,6)}}}}
+function clk(){let s=36000+Math.floor((Date.now()-S.t0)/1000),p=n=>String(n).padStart(2,'0');return p(Math.floor(s/3600))+':'+p(Math.floor(s/60)%60)+':'+p(s%60)}
+function log(m){S.tl.push({t:clk(),m});if(['tarp','events'].includes(view)&&!S.modal&&document.activeElement.tagName!='TEXTAREA')render()}
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
+function go(v){view=v;render()}
+function calc(){if(S.n3)return 3;const a=S.pz>CR.pz,b=S.dr>CR.dr;return a&&b?2:(a||b?1:0)}
+function tick(){
+ if(S.sig.PZ)S.pz+=(S.tpz-S.pz)*.2;if(S.sig.DR)S.dr+=(S.tdr-S.dr)*.2;
+ for(const r in S.ser){const s=S.ser[r];s.pz.shift();s.pz.push(S.sig.PZ?+(S.pz+(Math.random()-.5)*.03).toFixed(2):null);s.dr.shift();s.dr.push(S.sig.DR?+(S.dr+(Math.random()-.5)*.2).toFixed(2):null)}
+ S.cnt++;
+ if(!S.fp&&S.pz>CR.pz){S.fp=1;log('Sistema detecta tendencia piezométrica sobre criterio configurado')}
+ if(!S.fd&&S.dr>CR.dr){S.fd=1;log('Caudal supera criterio configurado')}
+ const n=calc();
+ if(n!==S.lvl){const o=S.lvl;S.lvl=n;log(`Estado cambia de N${o} a N${n}`);if(n>=1&&S.mk.n1==null)S.mk.n1=S.cnt;if(n>=2&&S.mk.n2==null)S.mk.n2=S.cnt;S.max=Math.max(S.max,n);if(n>=2&&!S.evt)mkEvt()}
+ $('#ck').textContent=clk();const l=LV[S.lvl];$('#hl').innerHTML=`<span class="pill ${l.c}">${l.n}</span>`;
+ if(['control','trend','map','instr'].includes(view)&&!S.modal)render(true)}
+function mkEvt(){const A=[['Verificar lectura del piezómetro PZ-01','Supervisor Geotécnico','15 minutos','Pendiente'],['Realizar inspección dirigida del drenaje aguas abajo','Geotecnia / Operaciones','30 minutos','Pendiente'],['Registrar evidencia fotográfica','Inspector de Campo','30 minutos','Pendiente'],['Comunicar condición al responsable geotécnico','Centro de Control','—','Registrado']];
+ S.evt={id:'EVT-2026-001',date:'29/09/2026',t:clk(),st:'En atención',acts:A.map(a=>({tx:a[0],resp:a[1],pl:a[2],st:a[3],h:[`29/09/2026 ${clk()} · ${a[1]} · Acción creada (${a[3]})`]})),cl:''};
+ log('Se crea EVT-2026-001');view='tarp';render()}
+function setAct(i,st){if(S.evt.st=='Cerrado')return;const a=S.evt.acts[i];if(a.st==st)return;a.st=st;a.h.push(`29/09/2026 ${clk()} · ${a.resp} · Cambió a ${st}`);log(`${a.resp}: Acción ${i+1} → ${st}`);render()}
+const done=()=>S.evt&&S.evt.acts.every(a=>a.st=='Completado'||a.st=='Registrado');
+function addEv(){if(!S.evt)return toast('Sin evento activo');const n='Evidencia_Fotografica_'+String(S.ev.length+1).padStart(3,'0')+'.jpg';S.ev.push({n,t:clk()});log('Evidencia registrada: '+n);toast('Evidencia registrada correctamente');render()}
+function saveObs(){const v=S.draft.trim();if(!v||!S.evt)return toast('Ingrese una observación');S.obs.push({t:clk(),v});S.draft='';log('Observación registrada');render()}
+function closeEvt(){S.modal=true;$('#modw').innerHTML=`<div id="mod"><div><h3>Cerrar EVT-2026-001</h3><p class="mu">Observación de cierre (obligatoria)</p><textarea id="clt">Lecturas verificadas. Condición estabilizada en el escenario simulado. Se mantiene seguimiento.</textarea><p><button class="btn" onclick="confClose()">Confirmar cierre</button> <button class="btn s" onclick="S.modal=false;$('#modw').innerHTML=''">Cancelar</button></p></div></div>`}
+function confClose(){const v=$('#clt').value.trim();if(!v)return;S.evt.st='Cerrado';S.evt.cl=v;S.evt.tc=clk();S.modal=false;$('#modw').innerHTML='';log('Evento cerrado. '+v);toast('Evento cerrado');render()}
+function reset(){timers.forEach(clearTimeout);timers=[];init();view='control';render()}
+function start(){reset();S.run=true;log('Inicio de escenario simulado');
+ const P=[10.5,10.9,11.3,11.6],D=[16.2,18.5,20.3,22.6],at=(ms,f)=>timers.push(setTimeout(()=>{f();render()},ms));
+ at(0,()=>S.stage='ETAPA 1 – NORMAL');
+ P.forEach((v,i)=>at(4000+i*2000,()=>{S.stage='ETAPA 2 – TENDENCIA PIEZOMÉTRICA';S.tpz=v}));
+ D.forEach((v,i)=>at(13000+i*2000,()=>{S.stage='ETAPA 3 – SEGUNDA DESVIACIÓN (DRENAJE)';S.tdr=v}));
+ at(25000,()=>{S.stage='Escenario completado – atender acciones del TARP';S.run=false})}
+function lose(){S.sig.DR=0;log('DR-01 sin datos');render()}
+function restore(){S.sig.DR=1;log('DR-01 restaurado');render()}
+function compAll(){if(!S.evt)return toast('Aún no hay evento (requiere N2)');S.evt.acts.forEach((a,i)=>{if(a.st!='Registrado')setAct(i,'Completado')})}
+const card=(l,v,u,s)=>`<div class="pn card"><small>${l}</small><br><b>${v}</b> <span class="mu">${u}</span><div style="margin-top:6px"><span class="pill ${s[1]}">${s[0]}</span></div></div>`;
+const nOk=()=>Object.values(S.sig).filter(Boolean).length;
+function alerts(){let a='';const l=S.lvl;
+ if(l==0)a=`<div class="al gr">Condiciones dentro de criterios configurados.</div>`;
+ if(l==1)a=`<div class="al am">Tendencia piezométrica sobre criterio configurado. Verificar instrumento y realizar revisión dirigida.</div>`;
+ if(l==2)a=`<div class="al rd">Se detectaron múltiples desviaciones respecto a criterios configurados. Se requiere intervención y escalamiento técnico.</div>`;
+ if(l==3)a=`<div class="al rd">N3 activado manualmente en modo administrador (demostración).</div>`;
+ if(!S.sig.DR)a+=`<div class="al am">Verificar instrumento DR-01. No se debe interpretar ausencia de señal como condición normal.</div>`;return a}
+function chart(k,t,u,crit,col,mk,ml){
+ const A=S.ser[rng][k],W=700,H=230,L=46,R=12,T=14,B=26,v=A.filter(x=>x!=null),lo=Math.min(...v,crit)-.4,hi=Math.max(...v,crit)+.4;
+ const X=i=>L+i*(W-L-R)/(A.length-1),Y=y=>T+(hi-y)*(H-T-B)/(hi-lo);let d='',pen=0;
+ A.forEach((y,i)=>{if(y==null){pen=0;return}d+=(pen?'L':'M')+X(i).toFixed(1)+' '+Y(y).toFixed(1);pen=1});
+ let g='';for(let i=0;i<=4;i++){const y=lo+(hi-lo)*i/4;g+=`<line x1="${L}" x2="${W-R}" y1="${Y(y)}" y2="${Y(y)}" stroke="#333d49" stroke-width=".6"/><text x="${L-6}" y="${Y(y)+4}" fill="#8d9aa8" font-size="11" text-anchor="end">${y.toFixed(1)}</text>`}
+ const xl={'1h':['-60 min','-30 min','ahora'],'24h':['-24 h','-12 h','ahora'],'7d':['-7 d','-3.5 d','ahora']}[rng];
+ let m='';if(S.mk[mk]!=null){const i=A.length-1-(S.cnt-S.mk[mk]);if(i>=0&&A[i]!=null)m=`<line x1="${X(i)}" x2="${X(i)}" y1="${T}" y2="${H-B}" stroke="${mk=='n2'?'#d9473f':'#e0a526'}" stroke-dasharray="4 3"/><circle cx="${X(i)}" cy="${Y(A[i])}" r="5" fill="${mk=='n2'?'#d9473f':'#e0a526'}"/><text x="${Math.min(X(i)+6,W-150)}" y="${T+12}" fill="#e8edf2" font-size="11">${ml}</text>`}
+ return `<div class="pn"><h3>${t} <span class="mu">(${u})</span></h3><svg viewBox="0 0 ${W} ${H}" width="100%">${g}
+ <line x1="${L}" x2="${W-R}" y1="${Y(crit)}" y2="${Y(crit)}" stroke="#d9473f" stroke-dasharray="6 4"/><text x="${W-R}" y="${Y(crit)-5}" fill="#d9473f" font-size="11" text-anchor="end">Criterio académico: ${crit} ${u} · UMBRAL ACADÉMICO PARA DEMOSTRACIÓN</text>
+ <path d="${d}" fill="none" stroke="${col}" stroke-width="2"/>${m}
+ ${xl.map((s,i)=>`<text x="${L+i*(W-L-R)/2}" y="${H-6}" fill="#8d9aa8" font-size="11" text-anchor="${['start','middle','end'][i]}">${s}</text>`).join('')}</svg></div>`}
+const charts=()=>chart('pz','Nivel piezométrico – PZ-01','m',CR.pz,'#3d8bd9','n1','Cambio a N1')+chart('dr','Caudal de drenaje – DR-01','L/min',CR.dr,'#7fb6ea','n2','Se activa N2');
+const tlH=()=>`<div class="pn"><h3>Trazabilidad del evento</h3><div class="tlb">${S.tl.length?S.tl.map(x=>`<div>${x.t} – ${esc(x.m)}</div>`).join(''):'<span class="mu">Sin registros. Inicie la simulación.</span>'}</div></div>`;
+const V={
+control(){const l=LV[S.lvl],pz=S.sig.PZ?(S.pz>CR.pz?['Sobre criterio','am']:['Normal','gr']):['SIN DATOS','na'],dr=S.sig.DR?(S.dr>CR.dr?['Sobre criterio','am']:['Normal','gr']):['SIN DATOS','na'],n=nOk();
+ return `<div class="pn lv ${l.c}"><div><small>NIVEL DE ACTUACIÓN</small><h1>${l.n}</h1><div class="mu">${S.stage||'Vigilancia en curso'}</div></div>
+ <div class="ladder">${LV.map((x,i)=>`<div class="lad ${i==S.lvl?'on '+x.c:''}">${x.n.split(' – ')[0]}<br><small style="color:inherit">${x.n.split(' – ')[1]}</small></div>`).join('')}</div>
+ <button class="btn big" onclick="start()" ${S.run?'disabled':''}>${S.run?'SIMULACIÓN EN CURSO…':'INICIAR SIMULACIÓN'}</button></div>${alerts()}
+ <div class="g3">${card('Nivel piezométrico',S.pz.toFixed(1),'m',pz)}${card('Desplazamiento','2.1','mm',['Normal','gr'])}${card('Borde libre','3.8','m',['Conforme','gr'])}
+ ${card('Caudal de drenaje',S.dr.toFixed(1),'L/min',dr)}${card('Turbidez','8','NTU',['Normal','gr'])}${card('Instrumentación',n+' / 5','instrumentos operativos',n==5?['ONLINE','gr']:['PARCIAL','am'])}</div>
+ <div class="g2">${charts()}</div>`},
+trend(){return `<div class="pn noprint">${[['1h','Última hora'],['24h','24 horas'],['7d','7 días']].map(r=>`<button class="btn s ${rng==r[0]?'on':''}" onclick="rng='${r[0]}';render()">${r[1]}</button>`).join(' ')}</div>${alerts()}${charts()}`},
+tarp(){if(!S.evt)return `<div class="pn"><h3>TARP Digital</h3><p class="mu">Sin evento activo. El TARP se genera automáticamente al alcanzar N2 – Intervención.</p></div>`;const e=S.evt;
+ return `<div class="gt"><div><div class="pn"><h3>${e.id} · Desviación geotécnica / hidráulica · <span class="pill rd">N2 – Intervención</span> <span class="pill ${e.st=='Cerrado'?'gr':'am'}">${e.st}</span></h3>
+ ${e.acts.map((a,i)=>`<div class="act"><b>Acción ${i+1}.</b> ${a.tx}<br><small>Responsable: ${a.resp} · Plazo: ${a.pl} · Estado: <b style="color:var(--tx)">${a.st}</b></small><div style="margin-top:6px">${ST.map(s=>`<button class="btn s ${a.st==s?'on':''}" onclick="setAct(${i},'${s}')">${s}</button>`).join(' ')}</div><div class="h">${a.h.join('<br>')}</div></div>`).join('')}</div>
+ <div class="pn"><h3>Gestión del evento – ${e.id}</h3><textarea id="ob" placeholder="Ej.: Se realizó inspección visual del drenaje. No se observan obstrucciones. Se mantiene seguimiento del caudal." oninput="S.draft=this.value">${esc(S.draft)}</textarea>
+ <p><button class="btn s" onclick="saveObs()">Guardar observación</button> <button class="btn" onclick="addEv()">ADJUNTAR EVIDENCIA</button> ${done()&&e.st!='Cerrado'?'<button class="btn rd" onclick="closeEvt()">CERRAR EVENTO</button>':''}</p>
+ ${S.ev.map(x=>`<div>📎 ${x.n} <small>· ${x.t}</small> <span class="pill gr">Registrada</span></div>`).join('')}${S.obs.map(x=>`<div><small>${x.t}</small> ${esc(x.v)}</div>`).join('')}</div></div>${tlH()}</div>`},
+events(){const e=S.evt,H=[['EVT-2025-014','14/11/2025','N1 – Atención','Tendencia piezométrica sobre criterio (histórico simulado)','Cerrado'],['EVT-2025-009','02/08/2025','N1 – Atención','Pérdida de señal en instrumento (histórico simulado)','Cerrado']];
+ return `<div class="pn"><h3>Historial de eventos</h3><table><tr><th>Evento</th><th>Fecha</th><th>Nivel</th><th>Condición</th><th>Estado</th></tr>${e?`<tr><td><b>${e.id}</b></td><td>${e.date} ${e.t}</td><td>N${S.max} – ${LV[S.max].n.split(' – ')[1]}</td><td>Nivel piezométrico y caudal de drenaje sobre criterio configurado</td><td><span class="pill ${e.st=='Cerrado'?'gr':'am'}">${e.st}</span></td></tr>`:''}${H.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</table>
+ ${e&&done()&&e.st!='Cerrado'?'<p><button class="btn rd" onclick="closeEvt()">CERRAR EVENTO</button></p>':''}${e&&!done()&&e.st!='Cerrado'?'<p class="mu">El cierre se habilita al completar todas las acciones del TARP.</p>':''}</div>${tlH()}`},
+map(){const h=S.lvl>=2,c=h?'#d9473f':'#3d8bd9',f=h?'rgba(217,71,63,.18)':'rgba(61,139,217,.1)',pt=(x,y,id,k)=>`<circle cx="${x}" cy="${y}" r="8" fill="${S.sig[k]?'#3fae6a':'#7b8794'}" stroke="#fff"/><text x="${x+14}" y="${y+4}" fill="#e8edf2" font-size="12">${id}</text>`;
+ return `<div class="pn"><h3>Mapa de exposición (esquema)</h3><svg viewBox="0 0 800 430" width="100%"><defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="${c}"/></marker></defs>
+ <rect x="50" y="30" width="300" height="130" fill="${f}" stroke="${c}" stroke-width="2"/><text x="200" y="100" fill="#e8edf2" text-anchor="middle" font-weight="600">DEPÓSITO DE RELAVES</text>
+ <line x1="50" x2="350" y1="160" y2="160" stroke="#8d9aa8" stroke-width="6"/>
+ <path d="M200 166V270" stroke="${c}" stroke-width="3" fill="none" marker-end="url(#ar)" ${h?'stroke-dasharray="0"':''}/><text x="215" y="225" fill="${h?'#d9473f':'#8d9aa8'}">DRENAJE</text>
+ <path d="M200 275C260 330 420 300 560 350" stroke="${c}" stroke-width="3" fill="none" marker-end="url(#ar)"/><text x="330" y="335" fill="${h?'#d9473f':'#8d9aa8'}">CURSO DE AGUA</text>
+ <rect x="580" y="330" width="180" height="70" fill="${f}" stroke="${c}" stroke-width="2" stroke-dasharray="${h?'0':'5 4'}"/><text x="670" y="360" fill="#e8edf2" text-anchor="middle" font-weight="600">RECEPTOR AGUAS ABAJO</text><text x="670" y="380" fill="${h?'#d9473f':'#8d9aa8'}" text-anchor="middle" font-size="12">${h?'Receptor potencial':'Sin desviación activa'}</text>
+ ${pt(120,130,'PZ-01','PZ')}${pt(300,90,'INC-02','INC')}${pt(200,260,'DR-01','DR')}</svg>
+ <p class="mu">Este mapa representa contexto de exposición. No constituye una simulación de rotura de presa ni un modelamiento de inundación.</p></div>`},
+instr(){return `${alerts()}<div class="pn"><h3>Estado de instrumentación · ${nOk()} / 5 operativos</h3><table><tr><th>Instrumento</th><th>Variable</th><th>Última lectura</th><th>Estado</th></tr>${INS.map(r=>{const ok=S.sig[r[2]],val={PZ:S.pz.toFixed(1)+' m',INC:'2.1 mm',DR:S.dr.toFixed(1)+' L/min',NL:'3.8 m',TB:'8 NTU'}[r[2]];return `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${ok?val:'<span class="mu">'+val+' (última válida)</span>'}</td><td><span class="pill ${ok?'gr':'na'}">${ok?'ONLINE':'SIN DATOS'}</span></td></tr>`}).join('')}</table>
+ <p><button class="btn rd" onclick="lose()">SIMULAR PÉRDIDA DE SEÑAL</button> <button class="btn s" onclick="restore()">Restaurar instrumento</button></p></div>`},
+rep(){const e=S.evt;let b='';
+ if(!e)b=`<p class="mu">No hay eventos para reportar. Inicie la simulación hasta N2.</p>`;
+ else if(S.rep)b=`<div class="paper"><h3>REPORTE DE EVENTO ${e.id}</h3><p><b>Borrador para revisión del profesional competente.</b> No constituye un reporte regulatorio oficial.</p>
+ <table><tr><th>Fecha / hora</th><td>${e.date} ${e.t} (simulada)</td></tr><tr><th>Nivel máximo alcanzado</th><td>N${S.max} – ${LV[S.max].n.split(' – ')[1]}</td></tr><tr><th>Variables involucradas</th><td>Nivel piezométrico (PZ-01: ${S.pz.toFixed(1)} m); caudal de drenaje (DR-01: ${S.dr.toFixed(1)} L/min)</td></tr><tr><th>Criterio activado</th><td>Nivel piezométrico &gt; ${CR.pz} m y caudal de drenaje &gt; ${CR.dr} L/min (umbrales académicos)</td></tr><tr><th>Estado final</th><td>${e.st}</td></tr></table>
+ <h3>Acciones TARP</h3><table><tr><th>Acción</th><th>Responsable</th><th>Plazo</th><th>Estado</th></tr>${e.acts.map(a=>`<tr><td>${a.tx}</td><td>${a.resp}</td><td>${a.pl}</td><td>${a.st}</td></tr>`).join('')}</table>
+ <h3>Evidencias</h3>${S.ev.length?S.ev.map(x=>`<div>${x.n} – ${x.t}</div>`).join(''):'Sin evidencias registradas.'}
+ <h3>Seguimiento</h3>${S.obs.map(x=>`<div>${x.t} – ${esc(x.v)}</div>`).join('')}${e.cl?`<div><b>Cierre:</b> ${esc(e.cl)}</div>`:''}${!S.obs.length&&!e.cl?'Sin observaciones.':''}
+ <h3>Trazabilidad</h3>${S.tl.map(x=>`<div style="font-family:monospace">${x.t} – ${esc(x.m)}</div>`).join('')}
+ <p class="noprint"><button class="btn" onclick="window.print()">Imprimir / guardar PDF</button></p></div>`;
+ return `<div class="pn"><h3>Reporte de evento</h3><button class="btn noprint" onclick="S.rep=true;render()">GENERAR REPORTE</button></div>${b}`}};
+function render(live){
+ $('#side').innerHTML='<b>GEOMINE GUARD</b>'+NAV.map(n=>`<a class="${view==n[0]?'on':''}" onclick="go('${n[0]}')">${n[1]}</a>`).join('');
+ $('#v').innerHTML=V[view]();const t=$('.tlb');if(t)t.scrollTop=t.scrollHeight;panel()}
+function panel(){$('#pan').innerHTML=`<b>Panel de simulación (demo)</b> <a style="float:right;cursor:pointer" onclick="pan=!pan;panel()">${pan?'–':'+'}</a>`+(pan?`<button class="btn s" onclick="reset()">Reiniciar escenario</button><button class="btn s" onclick="S.tpz=11.6">Simular aumento piezométrico</button><button class="btn s" onclick="S.tdr=22.6">Simular incremento de drenaje</button><button class="btn s" onclick="lose()">Simular pérdida de señal</button><button class="btn s" onclick="restore()">Restaurar instrumento</button><button class="btn s" onclick="compAll()">Completar acciones</button><button class="btn s" onclick="S.adm=!S.adm;render()">Modo administrador: ${S.adm?'ON':'OFF'}</button>${S.adm?`<button class="btn rd" onclick="S.n3=!S.n3;toast(S.n3?'N3 activado manualmente':'N3 desactivado')">${S.n3?'Desactivar':'Activar'} N3 manual</button>`:''}`:'')}
+init();render();setInterval(tick,400);
+</script></body></html>
